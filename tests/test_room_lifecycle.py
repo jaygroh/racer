@@ -77,7 +77,7 @@ async def test_third_player_rejected(server):
         await host.send(json.dumps({"type": "create"}))
         code = (await _recv(host, "created"))["code"]
         async with ws_connect(server) as p2:
-            await guest.send(json.dumps({"type": "join", "code": code}))
+            await p2.send(json.dumps({"type": "join", "code": code}))
             assert (await _recv(p2, "joined"))["seat"] == 1
             async with ws_connect(server) as p3:
                 await p3.send(json.dumps({"type": "join", "code": code}))
